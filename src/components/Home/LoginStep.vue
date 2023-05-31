@@ -92,7 +92,7 @@ export default {
                     .post("/login", data)
                     .then((res) => {
                         localStorage.setItem('user', JSON.stringify(res.data.data.user))
-                        localStorage.setItem('token', JSON.stringify(res.data.data.token))
+                        localStorage.setItem('token', res.data.data.token)
                         window.location.href = "/dashboard"
                     })
                     .catch(() => {
