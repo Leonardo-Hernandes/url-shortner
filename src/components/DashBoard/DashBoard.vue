@@ -31,15 +31,15 @@
                         </v-col>
                         <v-row>
                             <v-col>
-                                <p class="font-weight-bold text-h4 text-center">20</p>
+                                <p class="font-weight-bold text-h4 text-center">{{ this.links.length }}</p>
                                 <p class="font-weight-medium text-center">Links</p>
                             </v-col>
                             <v-col>
-                                <p class="font-weight-bold text-h4 text-center">30</p>
+                                <p class="font-weight-bold text-h4 text-center">{{ this.views }}</p>
                                 <p class="font-weight-medium text-center">Visualizações</p>
                             </v-col>
                             <v-col>
-                                <p class="font-weight-bold text-h4 text-center">2</p>
+                                <p class="font-weight-bold text-h4 text-center">{{ this.views }}</p>
                                 <p class="font-weight-medium text-center">Acessos</p>
                             </v-col>
                         </v-row>
@@ -47,7 +47,7 @@
 
                     </v-row>
                     <v-col cols="12">
-                        <LinkCard />
+                        <LinkCard v-for="item in links" :key="item.id" :item="item" />
                     </v-col>
                 </v-col>
 
@@ -88,18 +88,41 @@
 import LinkCard from "./LinkCard.vue";
 import './styles.css';
 
+import api from '../../config/api';
+
 export default {
     data: () => ({
         newLinkDialog: false,
         drawer: false,
+        isLoading: false,
         identifier: '',
+        user: {},
         url: '',
         searh: '',
-        items: [{ oi: 'oi' }, { oi: 'oi' }]
+        views: 0,
+        links: {},
     }),
 
     components: {
         LinkCard,
+    },
+
+    async mounted() {
+        const user = localStorage.getItem('user');
+        this.user = JSON.parse(user);
+
+        if (!this.user)
+            window.location.href = "/"
+
+        await api
+            .get(`/link/search/${this.user.id}`)
+            .then((res) => {
+                this.links = res.data;
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+        this.countViews()
     },
 
     methods: {
@@ -109,10 +132,22 @@ export default {
         },
 
         handleLogout() {
-            console.log("logout")
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+
+
+            window.location.href = "/"
             this.drawer = false
+        },
+
+        countViews() {
+            for (let item of this.links) {
+                this.views = this.views + parseInt(item.views)
+            }
         }
-    }
+    },
+
+    
 }
 
 </script>

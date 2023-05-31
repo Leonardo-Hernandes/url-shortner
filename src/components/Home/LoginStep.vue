@@ -54,10 +54,9 @@ export default {
         valid: false,
         snackbar: false,
         isLoading: false,
-        user: {},
-        token: '',
         text: '',
         email: '',
+        password: '',
         emailRules: [
             value => {
                 if (value) return true
@@ -92,8 +91,9 @@ export default {
                 await api
                     .post("/login", data)
                     .then((res) => {
-                        this.user = res.data.user;
-                        this.token = res.data.token
+                        localStorage.setItem('user', JSON.stringify(res.data.data.user))
+                        localStorage.setItem('token', JSON.stringify(res.data.data.token))
+                        window.location.href = "/dashboard"
                     })
                     .catch(() => {
                         this.snackbar = true;

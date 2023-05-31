@@ -2,8 +2,8 @@
     <v-card text class="mt-7 mb-7">
         <v-row style="margin: 0.5rem">
             <v-col cols="8">
-                <p class="font-weight-bold"> Google</p>
-                <a href="google.com"> google.com</a>
+                <p class="font-weight-bold">{{ this.item.to }}</p>
+                <a :href="this.apiUrl + this.item.to" > {{ this.apiUrl + this.item.to }}</a>
             </v-col>
             <v-col cols="4" class="center">
                 <p class=" ml-2 mr-1 mt-2">20</p>
@@ -23,8 +23,7 @@
             </v-card-text>
             <v-text-field label="Identificador" v-model="identifier" outlined type="email" variant="outlined"
                 class="mt-4 mb-1 ml-3 mr-3" />
-            <v-text-field label="Url" v-model="url" outlined type="email" variant="outlined"
-                class="mt-1 mb-1 ml-3 mr-3" />
+            <v-text-field label="Url" v-model="url" outlined type="email" variant="outlined" class="mt-1 mb-1 ml-3 mr-3" />
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="red-1" variant="text" @click="editDialog = false">
@@ -74,11 +73,14 @@ export default {
         identifier: '',
         url: '',
         text: '',
+        apiUrl: 'http://127.0.0.1:8000/api/link/redirect/'
     }),
+
+    props: ['item'],
 
     methods: {
         copyToClipboard() {
-            navigator.clipboard.writeText("google.com");
+            navigator.clipboard.writeText(`${this.apiUrl + this.item.to}`);
             this.snackbar = true;
             this.text = "Link copiado com sucesso!"
         },
