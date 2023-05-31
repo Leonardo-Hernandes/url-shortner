@@ -42,7 +42,7 @@ export default defineComponent({
 
 <style scoped>
 .customBackground {
-  background: linear-gradient(-45deg, #a7a7a7, #aad6c8, #8ab7c7, #97e5d3);
+  background: linear-gradient(-45deg, #a7a7a7, #c9aad6, #8ab7c7, #97e5d3);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   height: 100vh;
