@@ -1,15 +1,25 @@
 <template>
     <v-app-bar :elevation="0">
-        <v-app-bar-title>UrlS</v-app-bar-title>
-        <v-btn icon>
-            <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-        <v-btn icon>
-            <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        <v-btn icon>
-            <v-icon>mdi-account</v-icon>
-        </v-btn>
+        <v-col cols="3">
+            <v-app-bar-title class="ml-10">
+                <p class="font-weight-bold">Urls</p>
+            </v-app-bar-title>
+        </v-col>
+        <v-col cols="6" class="center">
+            <v-icon class="mr-5">mdi-magnify</v-icon>
+            <v-text-field v-model="search" label="Pesquisar" single-line hide-details variant="outlined"></v-text-field>
+            <v-btn icon class="ml-3">
+                <v-icon @click="newLinkDialog = true">mdi-plus</v-icon>
+            </v-btn>
+        </v-col>
+        <v-col cols="3" style="display: flex; justify-content: end;">
+            <v-btn icon>
+                <v-icon @click.stop="drawer = !drawer">mdi-account</v-icon>
+            </v-btn>
+        </v-col>
+
+
+
     </v-app-bar>
     <div style="background-color : #F4F6FA; height: 100%;">
         <v-container>
@@ -44,6 +54,34 @@
             </v-row>
         </v-container>
     </div>
+    <v-dialog v-model="newLinkDialog" width="40rem">
+        <v-card>
+            <v-card-text class="mt-5">
+                Adicionar um novo Link
+            </v-card-text>
+            <v-text-field label="Identificador" v-model="identifier" outlined type="email" variant="outlined"
+                class="mt-4 mb-1 ml-3 mr-3" />
+            <v-text-field label="Url *" v-model="url" outlined type="email" variant="outlined"
+                class="mt-1 mb-1 ml-3 mr-3" />
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="red-1" variant="text" @click="newLinkDialog = false">
+                    Cancelar
+                </v-btn>
+                <v-btn color="green-darken-1" variant="text" @click="handleNewLink()">
+                    Confirmar
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+    <v-navigation-drawer v-model="drawer" location="right" temporary>
+        <v-col cols="12" style="display: flex; justify-content: center;">
+            <v-btn variant="text" @click="handleLogout()">
+                Sair
+            </v-btn>
+        </v-col>
+    </v-navigation-drawer>
 </template>
 
 <script>
@@ -52,10 +90,28 @@ import './styles.css';
 
 export default {
     data: () => ({
+        newLinkDialog: false,
+        drawer: false,
+        identifier: '',
+        url: '',
+        searh: '',
+        items: [{ oi: 'oi' }, { oi: 'oi' }]
     }),
 
     components: {
         LinkCard,
+    },
+
+    methods: {
+        handleNewLink() {
+            console.log("new link")
+            this.newLinkDialog = false;
+        },
+
+        handleLogout() {
+            console.log("logout")
+            this.drawer = false
+        }
     }
 }
 

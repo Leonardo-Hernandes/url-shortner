@@ -21,9 +21,9 @@
             <v-card-text class="mt-5">
                 Edição de Url
             </v-card-text>
-            <v-text-field label="Email" v-model="identifier" outlined type="email" variant="outlined"
+            <v-text-field label="Identificador" v-model="identifier" outlined type="email" variant="outlined"
                 class="mt-4 mb-1 ml-3 mr-3" />
-            <v-text-field label="Email" v-model="url" outlined type="email" variant="outlined"
+            <v-text-field label="Url" v-model="url" outlined type="email" variant="outlined"
                 class="mt-1 mb-1 ml-3 mr-3" />
             <v-card-actions>
                 <v-spacer></v-spacer>
